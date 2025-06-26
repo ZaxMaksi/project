@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<head>
+    <title>{% block title %}MusicWorld{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>MusicWorld</h1>
+
+        <div class="header-image">
+        </div>
+
+        <nav>
+            <a href="{{ url_for('index') }}">Головна</a>
+            <a href="{{ url_for('items') }}">Товари</a>
+            <a href="{{ url_for('feedbacks') }}">Відгуки</a>
+            <a href="{{ url_for('contacts') }}">Контакти</a>
+
+            {% if logged_in and not is_admin %}
+                <a href="{{ url_for('add_feedback') }}">Написати відгук</a>
+                <a href="{{ url_for('orders') }}">Замовлення</a>
+                <a href="{{ url_for('cart') }}">Кошик</a>
+            {% endif %}
+
+            {% if is_admin %}
+                <a href="{{ url_for('admin_feedbacks') }}">Управління відгуками</a>
+                <a href="{{ url_for('admin_items') }}">Управління товарами</a>
+                <a href="{{ url_for('admin_orders') }}">Замовлення користувачів</a>
+            {% endif %}
+
+            {% if logged_in %}
+                <a href="{{ url_for('logout') }}">Вийти ({{ session['user'] }})</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Увійти</a>
+            {% endif %}
+        </nav>
+        <div class="exchange-rates">
+                <p>Курс валют(ПриватБанк)</p>
+            {% if exchange_rates %}
+                <span>USD: {{ exchange_rates['USD'].buy | round(2) }} / {{ exchange_rates['USD'].sale | round(2) }}</span>
+                &nbsp;|&nbsp;
+                <span>EUR: {{ exchange_rates['EUR'].buy | round(2) }} / {{ exchange_rates['EUR'].sale | round(2) }}</span>
+            {% else %}
+                <span>Курс валют недоступний</span>
+            {% endif %}
+        </div>
+    </header>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul style="color: rgb(78, 149, 78); list-style: none;">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        &copy; 2025 MusicWorld. Всі права захищені.
+    </footer>
+</body>
+</html>

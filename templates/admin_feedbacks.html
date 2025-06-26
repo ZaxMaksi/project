@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Управління відгуками{% endblock %}
+{% block content %}
+<h2>Управління відгуками</h2>
+
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Автор</th>
+            <th>Текст</th>
+            <th>Схвалено</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for fb in feedbacks %}
+        <tr>
+            <td>{{ fb.id }}</td>
+            <td>{{ fb.author }}</td>
+            <td>{{ fb.text }}</td>
+            <td>
+                <span class="{{ 'approved' if fb.approved else 'not-approved' }}">
+                    {{ 'Так' if fb.approved else 'Ні' }}
+                </span>
+            </td>
+            <td>
+                {% if not fb.approved %}
+                    <a href="{{ url_for('approve_feedback', fb_id=fb.id) }}">Схвалити</a> |
+                    <a href="{{ url_for('reject_feedback', fb_id=fb.id) }}" onclick="return confirm('Видалити відгук?')">Відхилити</a>
+                {% else %}
+                    <em class="approved">Схвалено</em>
+                {% endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5" style="text-align: center; color: #ccc;">Відгуків немає</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

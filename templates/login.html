@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Вхід{% endblock %}
+{% block content %}
+<h2>Увійти в акаунт</h2>
+
+<div class="auth-form">
+    {% if error %}
+        <p class="error-message">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Ваш email" required>
+
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" placeholder="Ваш пароль" required>
+
+        <button type="submit">Увійти</button>
+    </form>
+</div>
+{% endblock %}

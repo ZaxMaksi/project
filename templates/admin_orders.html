@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Замовлення користувачів{% endblock %}
+{% block content %}
+<h2>Усі замовлення</h2>
+
+{% if orders %}
+    {% for order in orders %}
+        <div class="card">
+            <h3>Користувач: {{ order.user_email }}</h3>
+            <ul style="text-align: left;">
+                {% for item in order.items %}
+                    <li>{{ item.item_name }} — {{ item.quantity }} шт. × {{ item.price }} грн = {{ item.quantity * item.price }} грн</li>
+                {% endfor %}
+            </ul>
+
+            <form action="{{ url_for('delete_order', order_id=order.id) }}" method="post" style="margin-top: 10px;">
+                <button type="submit" onclick="return confirm('Ви впевнені, що хочете видалити це замовлення?')">Видалити замовлення</button>
+            </form>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Замовлень поки немає.</p>
+{% endif %}
+
+{% endblock %}

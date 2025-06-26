@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Редагувати товар{% endblock %}
+{% block content %}
+<h2>Редагувати товар</h2>
+
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+
+<form method="POST">
+    <label>Назва:</label><br>
+    <input type="text" name="name" value="{{ item.name }}" required><br><br>
+
+    <label>Жанр:</label><br>
+    <input type="text" name="describe" value="{{ item.describe }}" required><br><br>
+
+    <label>Ціна (грн):</label><br>
+    <input type="number" name="price" value="{{ item.price }}" min="0" required><br><br>
+
+    <button type="submit">Зберегти</button>
+</form>
+
+<a href="{{ url_for('admin_items') }}" style="display:block; margin-top:15px;">Повернутися назад</a>
+
+{% endblock %}
